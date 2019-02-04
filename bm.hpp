@@ -37,7 +37,6 @@ class canvas {
 private:
   int Width, Height, Line;
   std::vector<BYTE> ImageBuffer;
-  int BufferSize;
   int CX, CY; // Current Point
   BYTE R, G, B;
 
@@ -46,8 +45,7 @@ public:
     Width = w;
     Height = h;
     Line = ((w * 3 - 1) / 4) * 4 + 4;
-    BufferSize = Line * h;
-    ImageBuffer.resize(BufferSize, 0);
+    ImageBuffer.resize(Line * h, 0);
     CX = 0;
     CY = 0;
   }
@@ -194,7 +192,7 @@ public:
     fs.write((char *)&biClrUsed, sizeof(DWORD));
     fs.write((char *)&biClrImportant, sizeof(DWORD));
     // DATA
-    fs.write((char *)ImageBuffer.data(), BufferSize);
+    fs.write((char *)ImageBuffer.data(), ImageBuffer.size());
     fs.close();
   }
 };

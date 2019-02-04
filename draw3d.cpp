@@ -3,8 +3,6 @@
 #include <cmath>
 #include <iostream>
 
-double *Draw3D::depth;
-
 Draw3D::Draw3D(double system_size, int image_size) {
   Width = image_size;
   Height = image_size;
@@ -22,16 +20,10 @@ Draw3D::Draw3D(double system_size, int image_size) {
 
 Draw3D::~Draw3D(void) { delete canvas; }
 
-bool Draw3D::Compare(const int i, const int j) { return depth[i] < depth[j]; }
-
 void Draw3D::Draw(int n, double *qx, double *qy, double *qz) {
   particleNumber = n;
-  sorted_index = new int[n];
-  depth = new double[n];
+  std::vector<std::pair<int, double>> sorted_list;
 
-  for (int i = 0; i < n; i++) {
-    sorted_index[i] = i;
-  }
   for (int i = 0; i < n; i++) {
     double x = qx[i] - L * 0.5;
     double y = qy[i] - L * 0.5;
@@ -39,9 +31,12 @@ void Draw3D::Draw(int n, double *qx, double *qy, double *qz) {
     double y1 = y;
     double z1 = -sin(Phi) * x + cos(Phi) * z;
     double z2 = -sin(Theta) * y1 + cos(Theta) * z1;
-    depth[i] = z2;
+    sorted_list.push_back(std::make_pair(i, z2));
   }
-  std::sort(sorted_index, sorted_index + n, Compare);
+  std::sort(sorted_list.begin(), sorted_list.end(),
+            [](const std::pair<int, double> &i, std::pair<int, double> &j) {
+              return i.second < j.second;
+            });
 
   DrawAxis();
   const int r = static_cast<int>(Sigma * Magnification);
@@ -51,15 +46,13 @@ void Draw3D::Draw(int n, double *qx, double *qy, double *qz) {
     canvas->FillCircle(p.X, p.Y, r);
   }
   for (int i = 0; i < n; i++) {
-    int j = sorted_index[i];
+    int j = sorted_list[i].first;
     Point p = GetPoint(qx[j], qy[j], qz[j]);
     canvas->SetColor(0, 0, 255);
     canvas->FillCircle(p.X, p.Y, r);
     canvas->SetColor(0, 0, 0);
     canvas->DrawCircle(p.X, p.Y, r);
   }
-  delete[] sorted_index;
-  delete[] depth;
 }
 
 Point Draw3D::GetPoint(double x, double y, double z) {

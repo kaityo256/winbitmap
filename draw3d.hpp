@@ -17,8 +17,6 @@ private:
   double L;
   double Theta, Phi;
   double Sigma;
-  static double *depth;
-  int *sorted_index;
   int SX, SY;
   int Width, Height;
   double Magnification;
@@ -36,5 +34,4 @@ public:
   void SetSigma(double s) { Sigma = s; };
   void Draw(int n, double *qx, double *qy, double *qz);
   void SaveToFile(const char *filename) { canvas->SaveToFile(filename); };
-  static bool Compare(int i, int j);
 };

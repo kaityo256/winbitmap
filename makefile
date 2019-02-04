@@ -1,7 +1,7 @@
 TARGET=a.out
 
 CC=g++
-CPPFLAGS=
+CPPFLAGS=-std=c++11
 
 -include makefile.opt
 
