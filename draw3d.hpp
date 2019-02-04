@@ -4,17 +4,27 @@
 #include <cmath>
 #include <memory>
 
-class draw3d {
-private:
-  struct Point {
-    int X, Y;
-    Point();
-    Point(int _x, int _y) {
-      X = _x;
-      Y = _y;
-    }
-  };
+namespace draw3d {
+struct vec3d {
+  double x, y, z;
+  vec3d(double _x, double _y, double _z) {
+    x = _x;
+    y = _y;
+    z = _z;
+  }
+};
 
+struct Point {
+  int X, Y;
+  Point();
+  Point(int _x, int _y) {
+    X = _x;
+    Y = _y;
+  }
+};
+
+class image {
+private:
   std::unique_ptr<winbitmap::canvas> canvas;
   double L;
   double Theta, Phi;
@@ -69,16 +79,7 @@ private:
   }
 
 public:
-  struct vec3d {
-    double x, y, z;
-    vec3d(double _x, double _y, double _z) {
-      x = _x;
-      y = _y;
-      z = _z;
-    }
-  };
-
-  draw3d(double system_size, int image_size) {
+  image(double system_size, int image_size) {
     width = image_size;
     height = image_size;
     SX = static_cast<int>(width * 0.175);
@@ -134,3 +135,5 @@ public:
   }
   void save_to_file(const char *filename) { canvas->save_to_file(filename); };
 };
+
+} // namespace draw3d
