@@ -37,8 +37,8 @@ class canvas {
 private:
   int width, height, line;
   std::vector<BYTE> image_buffer;
-  int cx, cy; // Current Point
-  BYTE R, G, B;
+  int cx, cy;   // Current Point
+  BYTE R, G, B; // Current Color
 
 public:
   canvas(int w, int h) {
@@ -102,6 +102,17 @@ public:
     R = red;
     G = green;
     B = blue;
+  }
+
+  void draw_rect(int x, int y, int w, int h) {
+    for (int iy = y; iy <= y + h; iy++) {
+      draw_point(x, iy);
+      draw_point(x + w, iy);
+    }
+    for (int ix = x; ix <= x + w; ix++) {
+      draw_point(ix, y);
+      draw_point(ix, y + h);
+    }
   }
 
   void fill_rect(int x, int y, int w, int h) {

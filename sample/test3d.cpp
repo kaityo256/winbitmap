@@ -39,5 +39,6 @@ int main(void) {
   }
   draw3d::image img(L, 400);
   img.draw(atoms);
-  img.save_to_file("test.bmp");
+  img.save_to_file("test3d.bmp");
+  std::cout << "Saved to test3d.bmp" << std::endl;
 }

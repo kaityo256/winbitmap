@@ -1,5 +1,5 @@
 #pragma once
-#include "bm.hpp"
+#include "../winbitmap.hpp"
 #include <algorithm>
 #include <cmath>
 #include <memory>
