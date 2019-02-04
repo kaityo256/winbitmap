@@ -27,11 +27,13 @@ SOFTWARE.
 #include <iostream>
 #include <vector>
 
+namespace winbitmap {
+
 typedef unsigned char BYTE;
 typedef unsigned short WORD;
 typedef unsigned int DWORD;
 
-class WindowsBitmap {
+class canvas {
 private:
   int Width, Height, Line;
   std::vector<BYTE> ImageBuffer;
@@ -40,7 +42,7 @@ private:
   BYTE R, G, B;
 
 public:
-  WindowsBitmap(int w, int h) {
+  canvas(int w, int h) {
     Width = w;
     Height = h;
     Line = ((w * 3 - 1) / 4) * 4 + 4;
@@ -196,3 +198,5 @@ public:
     fs.close();
   }
 };
+
+} // namespace winbitmap

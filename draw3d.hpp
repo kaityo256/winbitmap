@@ -12,7 +12,7 @@ struct Point {
 
 class Draw3D {
 private:
-  WindowsBitmap *canvas;
+  winbitmap::canvas *canvas;
   int particleNumber;
   double L;
   double Theta, Phi;
