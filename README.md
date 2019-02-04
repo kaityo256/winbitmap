@@ -2,11 +2,11 @@
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
-A simgle file C++ library to generate Microsoft Windows Bitmap files with minimal dependencies. It depends only on STL.
+A single file C++ library to generate Microsoft Windows Bitmap files with minimal dependencies. It depends only on STL.
 
 ## Usage
 
-Just include `winbitmap.hpp`. Then you can use a class `winbitmap::canvas`. Here is an example.
+Just include a header file `winbitmap.hpp`. Then you can use `winbitmap::canvas` class. Here is an example.
 
 ```cpp
 #include "winbitmap.hpp"
