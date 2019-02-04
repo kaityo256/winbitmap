@@ -1,7 +1,7 @@
 TARGET=a.out
 
 CC=g++
-CPPFLAGS=-std=c++11
+CPPFLAGS=-std=c++11 -Wall -Wextra
 
 -include makefile.opt
 

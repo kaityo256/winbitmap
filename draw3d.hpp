@@ -1,18 +1,19 @@
 #pragma once
 #include "bm.hpp"
-
-struct Point {
-  int X, Y;
-  Point();
-  Point(int _x, int _y) {
-    X = _x;
-    Y = _y;
-  }
-};
+#include <memory>
 
 class Draw3D {
 private:
-  winbitmap::canvas *canvas;
+  struct Point {
+    int X, Y;
+    Point();
+    Point(int _x, int _y) {
+      X = _x;
+      Y = _y;
+    }
+  };
+
+  std::unique_ptr<winbitmap::canvas> canvas;
   int particleNumber;
   double L;
   double Theta, Phi;
@@ -28,7 +29,6 @@ private:
 
 public:
   Draw3D(double ss, int is);
-  ~Draw3D(void);
   void SetPhi(double p) { Phi = p; };
   void SetTheta(double t) { Theta = t; };
   void SetSigma(double s) { Sigma = s; };

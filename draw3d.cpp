@@ -13,12 +13,10 @@ Draw3D::Draw3D(double system_size, int image_size) {
   Phi = 0.25;
   Sigma = 0.25;
   Magnification = static_cast<double>(Width) / L * 0.625;
-  canvas = new winbitmap::canvas(Width, Height);
+  canvas.reset(new winbitmap::canvas(Width, Height));
   canvas->SetColor(255, 255, 255);
   canvas->FillRect(0, 0, Width, Height);
 }
-
-Draw3D::~Draw3D(void) { delete canvas; }
 
 void Draw3D::Draw(int n, double *qx, double *qy, double *qz) {
   particleNumber = n;
@@ -47,7 +45,7 @@ void Draw3D::Draw(int n, double *qx, double *qy, double *qz) {
   }
   for (int i = 0; i < n; i++) {
     int j = sorted_list[i].first;
-    Point p = GetPoint(qx[j], qy[j], qz[j]);
+    Draw3D::Point p = GetPoint(qx[j], qy[j], qz[j]);
     canvas->SetColor(0, 0, 255);
     canvas->FillCircle(p.X, p.Y, r);
     canvas->SetColor(0, 0, 0);
@@ -55,7 +53,7 @@ void Draw3D::Draw(int n, double *qx, double *qy, double *qz) {
   }
 }
 
-Point Draw3D::GetPoint(double x, double y, double z) {
+Draw3D::Point Draw3D::GetPoint(double x, double y, double z) {
   x -= L * 0.5;
   y -= L * 0.5;
   z -= L * 0.5;
