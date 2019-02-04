@@ -31,7 +31,7 @@
 //----------------------------------------------------------------------
 #include <iostream>
 #include <fstream>
-#include "bm.h"
+#include "bm.hpp"
 using namespace std;
 //----------------------------------------------------------------------
 WindowsBitmap::WindowsBitmap(int w, int h){

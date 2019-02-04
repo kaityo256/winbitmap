@@ -31,7 +31,7 @@
 #include <iostream>
 #include <math.h>
 #include <algorithm>
-#include "draw3d.h"
+#include "draw3d.hpp"
 using namespace std;
 
 double *Draw3D::depth;
