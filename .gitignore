@@ -3,3 +3,4 @@ makefile.opt
 makefile.depend
 *.o
 test.bmp
+.clang-format
