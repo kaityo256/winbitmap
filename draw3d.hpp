@@ -30,7 +30,7 @@
 */
 #ifndef draw3d_h
 #define draw3d_h
-#include "bm.h"
+#include "bm.hpp"
 //----------------------------------------------------------------------
 struct Point{
   int X, Y; 
