@@ -32,6 +32,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 typedef unsigned char BYTE;
 typedef unsigned short WORD;
@@ -40,7 +41,8 @@ typedef unsigned int DWORD;
 class WindowsBitmap{
   private:
     int Width, Height,Line;
-    BYTE * ImageBuffer;
+    //BYTE * ImageBuffer;
+    std::vector<BYTE> ImageBuffer;
     int BufferSize;
     int CX, CY; // Current Point
     BYTE R,G,B;
@@ -51,10 +53,11 @@ class WindowsBitmap{
       Height = h;
       Line = ((w*3 -1)/4)*4 + 4; 
       BufferSize = Line*h;
-      ImageBuffer = new BYTE[BufferSize];
+      ImageBuffer.resize(BufferSize, 0);
+      /*
       for(int i=0;i<BufferSize;i++){
         ImageBuffer[i] = 0;
-      }
+      }*/
       CX = 0;
       CY = 0;
 
@@ -200,7 +203,7 @@ class WindowsBitmap{
       fs.write((char *)&biClrUsed,sizeof(DWORD));
       fs.write((char *)&biClrImportant,sizeof(DWORD));
       //DATA
-      fs.write((char *)ImageBuffer,BufferSize);
+      fs.write((char *)ImageBuffer.data(),BufferSize);
       fs.close();
     }
 };

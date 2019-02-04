@@ -2,3 +2,4 @@ a.out
 makefile.opt
 makefile.depend
 *.o
+test.bmp
