@@ -14,8 +14,8 @@ Draw3D::Draw3D(double system_size, int image_size) {
   Sigma = 0.25;
   Magnification = static_cast<double>(Width) / L * 0.625;
   canvas.reset(new winbitmap::canvas(Width, Height));
-  canvas->SetColor(255, 255, 255);
-  canvas->FillRect(0, 0, Width, Height);
+  canvas->set_color(255, 255, 255);
+  canvas->fill_rect(0, 0, Width, Height);
 }
 
 void Draw3D::Draw(int n, double *qx, double *qy, double *qz) {
@@ -40,16 +40,16 @@ void Draw3D::Draw(int n, double *qx, double *qy, double *qz) {
   const int r = static_cast<int>(Sigma * Magnification);
   for (int i = 0; i < n; i++) {
     Point p = GetPoint(qx[i], 0, qz[i]);
-    canvas->SetColor(128, 128, 128);
-    canvas->FillCircle(p.X, p.Y, r);
+    canvas->set_color(128, 128, 128);
+    canvas->fill_circle(p.X, p.Y, r);
   }
   for (int i = 0; i < n; i++) {
     int j = sorted_list[i].first;
     Draw3D::Point p = GetPoint(qx[j], qy[j], qz[j]);
-    canvas->SetColor(0, 0, 255);
-    canvas->FillCircle(p.X, p.Y, r);
-    canvas->SetColor(0, 0, 0);
-    canvas->DrawCircle(p.X, p.Y, r);
+    canvas->set_color(0, 0, 255);
+    canvas->fill_circle(p.X, p.Y, r);
+    canvas->set_color(0, 0, 0);
+    canvas->draw_circle(p.X, p.Y, r);
   }
 }
 
@@ -74,12 +74,12 @@ void Draw3D::DrawLine(double x1, double y1, double z1, double x2, double y2,
                       double z2) {
   Point p1 = GetPoint(x1, y1, z1);
   Point p2 = GetPoint(x2, y2, z2);
-  canvas->MoveTo(p1.X, p1.Y);
-  canvas->LineTo(p2.X, p2.Y);
+  canvas->moveto(p1.X, p1.Y);
+  canvas->lineto(p2.X, p2.Y);
 }
 
 void Draw3D::DrawAxis(void) {
-  canvas->SetColor(128, 128, 128);
+  canvas->set_color(128, 128, 128);
   DrawLine(0, 0, 0, 0, 0, L);
   DrawLine(0, 0, 0, 0, L, 0);
   DrawLine(0, 0, 0, L, 0, 0);

@@ -33,5 +33,5 @@ public:
   void SetTheta(double t) { Theta = t; };
   void SetSigma(double s) { Sigma = s; };
   void Draw(int n, double *qx, double *qy, double *qz);
-  void SaveToFile(const char *filename) { canvas->SaveToFile(filename); };
+  void SaveToFile(const char *filename) { canvas->save_to_file(filename); };
 };

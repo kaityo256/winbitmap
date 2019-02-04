@@ -35,93 +35,93 @@ typedef unsigned int DWORD;
 
 class canvas {
 private:
-  int Width, Height, Line;
-  std::vector<BYTE> ImageBuffer;
-  int CX, CY; // Current Point
+  int width, height, line;
+  std::vector<BYTE> image_buffer;
+  int cx, cy; // Current Point
   BYTE R, G, B;
 
 public:
   canvas(int w, int h) {
-    Width = w;
-    Height = h;
-    Line = ((w * 3 - 1) / 4) * 4 + 4;
-    ImageBuffer.resize(Line * h, 0);
-    CX = 0;
-    CY = 0;
+    width = w;
+    height = h;
+    line = ((w * 3 - 1) / 4) * 4 + 4;
+    image_buffer.resize(line * h, 0);
+    cx = 0;
+    cy = 0;
   }
 
-  void MoveTo(int x, int y) {
-    CX = x;
-    CY = y;
+  void moveto(int x, int y) {
+    cx = x;
+    cy = y;
   }
 
-  void LineTo(int x, int y) {
-    int dx = (x > CX) ? x - CX : CX - x;
-    int dy = (y > CY) ? y - CY : CY - y;
+  void lineto(int x, int y) {
+    int dx = (x > cx) ? x - cx : cx - x;
+    int dy = (y > cy) ? y - cy : cy - y;
 
-    int sx = (x > CX) ? 1 : -1;
-    int sy = (y > CY) ? 1 : -1;
+    int sx = (x > cx) ? 1 : -1;
+    int sy = (y > cy) ? 1 : -1;
 
     if (dx > dy) {
       int E = -dx;
       for (int i = 0; i <= dx; i++) {
-        DrawPoint(CX, CY);
-        CX += sx;
+        draw_point(cx, cy);
+        cx += sx;
         E += 2 * dy;
         if (E >= 0) {
-          CY += sy;
+          cy += sy;
           E -= 2 * dx;
         }
       }
     } else {
       int E = -dy;
       for (int i = 0; i <= dy; i++) {
-        DrawPoint(CX, CY);
-        CY += sy;
+        draw_point(cx, cy);
+        cy += sy;
         E += 2 * dx;
         if (E >= 0) {
-          CX += sx;
+          cx += sx;
           E -= 2 * dy;
         }
       }
     }
   }
 
-  void DrawPoint(int x, int y) {
-    if (x < 0 || x >= Width)
+  void draw_point(int x, int y) {
+    if (x < 0 || x >= width)
       return;
-    if (y < 0 || y >= Height)
+    if (y < 0 || y >= height)
       return;
-    int p = y * Line + x * 3;
-    ImageBuffer[p] = B;
-    ImageBuffer[p + 1] = G;
-    ImageBuffer[p + 2] = R;
+    int p = y * line + x * 3;
+    image_buffer[p] = B;
+    image_buffer[p + 1] = G;
+    image_buffer[p + 2] = R;
   }
 
-  void SetColor(BYTE red, BYTE green, BYTE blue) {
+  void set_color(BYTE red, BYTE green, BYTE blue) {
     R = red;
     G = green;
     B = blue;
   }
 
-  void FillRect(int x, int y, int w, int h) {
+  void fill_rect(int x, int y, int w, int h) {
     for (int iy = 0; iy < h; iy++) {
       for (int ix = 0; ix < w; ix++) {
-        DrawPoint(ix + x, iy + y);
+        draw_point(ix + x, iy + y);
       }
     }
   }
 
-  void FillCircle(int x0, int y0, int r) {
+  void fill_circle(int x0, int y0, int r) {
     int x = r;
     int y = 0;
     int F = -2 * r + 3;
     while (x >= y) {
       for (int i = -x; i <= x; i++) {
-        DrawPoint(x0 + i, y0 + y);
-        DrawPoint(x0 + i, y0 - y);
-        DrawPoint(x0 + y, y0 + i);
-        DrawPoint(x0 - y, y0 + i);
+        draw_point(x0 + i, y0 + y);
+        draw_point(x0 + i, y0 - y);
+        draw_point(x0 + y, y0 + i);
+        draw_point(x0 - y, y0 + i);
       }
       if (F >= 0) {
         x--;
@@ -132,19 +132,19 @@ public:
     }
   }
 
-  void DrawCircle(int x0, int y0, int r) {
+  void draw_circle(int x0, int y0, int r) {
     int x = r;
     int y = 0;
     int F = -2 * r + 3;
     while (x >= y) {
-      DrawPoint(x0 + x, y0 + y);
-      DrawPoint(x0 - x, y0 + y);
-      DrawPoint(x0 + x, y0 - y);
-      DrawPoint(x0 - x, y0 - y);
-      DrawPoint(x0 + y, y0 + x);
-      DrawPoint(x0 - y, y0 + x);
-      DrawPoint(x0 + y, y0 - x);
-      DrawPoint(x0 - y, y0 - x);
+      draw_point(x0 + x, y0 + y);
+      draw_point(x0 - x, y0 + y);
+      draw_point(x0 + x, y0 - y);
+      draw_point(x0 - x, y0 - y);
+      draw_point(x0 + y, y0 + x);
+      draw_point(x0 - y, y0 + x);
+      draw_point(x0 + y, y0 - x);
+      draw_point(x0 - y, y0 - x);
       if (F >= 0) {
         x--;
         F -= 4 * x;
@@ -154,15 +154,15 @@ public:
     }
   }
 
-  void SaveToFile(const char *filename) {
-    DWORD bfSize = ImageBuffer.size() + 54;
+  void save_to_file(const char *filename) {
+    DWORD bfSize = image_buffer.size() + 54;
     WORD bfReserved1 = 0;
     WORD bfReserved2 = 0;
     DWORD bfOffBits = 54;
 
     DWORD biSize = 40;
-    DWORD biWidth = Width;
-    DWORD biHeight = Height;
+    DWORD biWidth = width;
+    DWORD biHeight = height;
     WORD biPlanes = 1;
     WORD biBitCount = 24;
     DWORD biCompression = 0;
@@ -192,7 +192,7 @@ public:
     fs.write((char *)&biClrUsed, sizeof(DWORD));
     fs.write((char *)&biClrImportant, sizeof(DWORD));
     // DATA
-    fs.write((char *)ImageBuffer.data(), ImageBuffer.size());
+    fs.write((char *)image_buffer.data(), image_buffer.size());
     fs.close();
   }
 };
